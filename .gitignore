@@ -22,7 +22,6 @@ frontend/node_modules/
 # Local artifacts
 *.zip
 _ndvi_incoming/
-database/backups/
 
 # OS/editor files
 .DS_Store
