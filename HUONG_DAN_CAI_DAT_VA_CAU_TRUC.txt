@@ -1,0 +1,127 @@
+================================================================================
+HUONG DAN CAI DAT VA MO TA CAU TRUC PROJECT NDVI AI WEBGIS
+================================================================================
+
+1. TONG QUAN DU AN
+- Ten he thong: WebGIS Giam sat va Du bao chi so thuc vat NDVI / LST / TVDI TP.HCM
+- Cong nghe su dung:
+  + Backend : FastAPI (Python 3.11+), SQLAlchemy, Rasterio, GeoPandas, Scikit-learn
+  + Frontend: React 18, Vite, TypeScript, TailwindCSS, Leaflet (GIS), ECharts
+  + CSDL    : PostgreSQL 15+ tich hop PostGIS (spatial database)
+
+--------------------------------------------------------------------------------
+2. MO TA CAU TRUC PROJECT
+--------------------------------------------------------------------------------
+NDVI_Project/
+│
+├── HUONG_DAN_CAI_DAT_VA_CAU_TRUC.txt  : File huong dan cai dat va mo ta he thong
+│
+├── HCM_NDVI_2015.tif -> 2025.tif      : 11 file anh ve tinh GeoTIFF goc TP.HCM (2015 - 2025)
+├── HCM_NDVI_Change_2015_2025.tif      : Anh GeoTIFF bien dong lop phu thuc vat 10 nam
+├── HCM_NDVI_Forecast_Maps_2026.zip    : Bo ban do va du lieu du bao 12 thang nam 2026
+├── *.docx, *.pdf                      : Tai lieu thuyet minh phuong phap va thang mau
+│
+└── ndvi-ai-web/                       : Thu muc ma nguon ung dung WebGIS
+    │
+    ├── backend/                       : Ma nguon Backend (FastAPI REST API)
+    │   ├── app/                       : Thu muc chua logic chinh
+    │   │   ├── main.py                : File entry point khoi chay API server (main backend)
+    │   │   ├── config.py              : Quan ly bien cau hinh moi truong (.env)
+    │   │   ├── database.py            : Khoi tao ket noi CSDL PostgreSQL/PostGIS
+    │   │   ├── models/                : SQLAlchemy ORM models (dinh nghia cac bang CSDL)
+    │   │   ├── routers/               : Cac API routes (tiles, forecast, wards, rasters...)
+    │   │   ├── schemas/               : Pydantic schemas kiem tra du lieu request/response
+    │   │   ├── services/              : Logic xu ly cat lat tile raster, GIS va AI
+    │   │   └── utils/                 : Cac ham tien ich xu ly anh GeoTIFF va he toa do
+    │   └── requirements.txt           : Danh sach thu vien Python can cai dat
+    │
+    ├── frontend/                      : Ma nguon Frontend (Giao dien WebGIS)
+    │   ├── src/                       : Thu muc chua toan bo code giao dien (Source code)
+    │   │   ├── main.tsx               : Diem khoi dau cua ung dung React (main frontend)
+    │   │   ├── App.tsx                : Dinh tuyen (routing) va layout tong the
+    │   │   ├── api/                   : Module goi HTTP API toi backend
+    │   │   ├── components/            : Cac thanh phan giao dien dung chung:
+    │   │   │   ├── map/               : Ban do tuong tac Leaflet, MapViewer, Legend, Preview
+    │   │   │   ├── charts/            : Bieu do ECharts thong ke chi so thoi gian
+    │   │   │   └── layout/            : Header, Sidebar, Container
+    │   │   ├── pages/                 : Cac trang chuc nang (Dashboard, Maps, Analytics, Forecast)
+    │   │   ├── styles/                : CSS toan cuc va TailwindCSS
+    │   │   └── types/                 : Dinh nghia kieu du lieu TypeScript
+    │   ├── package.json               : Danh sach thu vien Node.js (React, Leaflet, ECharts...)
+    │   └── vite.config.ts             : Cau hinh Vite build tool
+    │
+    ├── database/                      : Co so du lieu PostgreSQL + PostGIS
+    │   ├── schema.sql                 : Script SQL tao toan bo bang, kieu ENUM va PostGIS
+    │   ├── migrations/                : Cac script SQL nang cap cau truc du lieu
+    │   └── backups/                   : File sao luu CSDL goc (.dump)
+    │
+    ├── data/                          : Du lieu xu ly va phan tich
+    │   └── gee/                       :
+    │       ├── boundaries/            : Ranh gioi GeoJSON 167 phuong/xa TP.HCM
+    │       ├── statistics/            : File CSV thong ke chi so qua tung nam
+    │       ├── rasters/               : Anh GeoTIFF chi so NDVI, LST, TVDI da chuan hoa
+    │       ├── ward_annual_model.joblib: Model Machine Learning du bao NDVI
+    │       └── forecast_2026_wards.csv: Ket qua du bao chi tiet theo phuong/xa
+    │
+    ├── scripts/                       : Cac script tu dong hoa & Data Pipeline
+    │   ├── setup_database.py          : Tao database, bat PostGIS va nap schema.sql
+    │   ├── ingest_all.py              : Pipeline nap toan bo raster va du lieu vao CSDL
+    │   └── ml/                        : Huan luyen va danh gia model AI Random Forest
+    │
+    ├── docker-compose.yml             : File khoi chay nhanh PostgreSQL/PostGIS container
+    ├── .env / .env.example            : Cau hinh ket noi DB, cong va duong dan thu muc
+    ├── setup.ps1                      : Script PowerShell 1-click cai dat moi truong tu A-Z
+    └── start.ps1                      : Script PowerShell 1-click khoi chay ca Backend & Frontend
+
+--------------------------------------------------------------------------------
+3. HUONG DAN CAI DAT VA KHOI CHAY
+--------------------------------------------------------------------------------
+Yeu cau he thong:
+- Python >= 3.11
+- Node.js >= 18 (kem npm)
+- Docker Desktop (hoac PostgreSQL >= 14 da cai san PostGIS)
+
+=== CACH 1: KHOI CHAY NHANH BANG POWERSHELL SCRIPT (KHUYEN DUNG) ===
+1. Mo terminal PowerShell tai thu muc: `ndvi-ai-web`
+2. Chay script cai dat tu dong:
+   .\setup.ps1
+   (Script se tu kiem tra moi truong, tao venv, cai dat pip/npm, chay Docker DB, nap schema va du lieu)
+3. Chay script khoi dong he thong:
+   .\start.ps1
+4. Truy cap ung dung:
+   - Frontend WebGIS: http://localhost:5173
+   - Backend API Docs: http://localhost:8000/docs
+
+=== CACH 2: KHOI CHAY THU CONG (KHONG DUNG SCRIPT) ===
+1. Co so du lieu:
+   - Khoi dong container DB:
+     docker-compose up -d
+   - Hoac tao CSDL thu cong trong PostgreSQL voi ten `ndvi_ai`, bat extension PostGIS:
+     CREATE EXTENSION postgis;
+   - Chay script tao bang: chay file `database/schema.sql`
+
+2. Backend (FastAPI):
+   - Di vao thu muc: cd ndvi-ai-web/backend
+   - Tao moi truong ao: python -m venv venv
+   - Kich hoat venv:
+     + Windows: .\venv\Scripts\activate
+     + Linux/Mac: source venv/bin/activate
+   - Cai thu vien: pip install -r requirements.txt
+   - Chay backend: uvicorn app.main:app --reload --port 8000
+
+3. Nap du lieu vao DB:
+   - Di vao thu muc: cd ndvi-ai-web
+   - Chay: python scripts/ingest_all.py
+
+4. Frontend (React + Vite):
+   - Di vao thu muc: cd ndvi-ai-web/frontend
+   - Cai thu vien: npm install
+   - Chay frontend: npm run dev
+   - Mo trinh duyet: http://localhost:5173
+
+--------------------------------------------------------------------------------
+4. LUU Y KHI CHUYEN MAY
+--------------------------------------------------------------------------------
+- Mac dinh project ho tro dat tai bat ky thu muc nao.
+- Neu doi vi tri luu thu muc chua file raster goc (.tif), hay mo file `ndvi-ai-web/.env`
+  va cap nhat bien `SOURCE_DATA_DIR` ve dung duong dan tuong ung.

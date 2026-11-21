@@ -1,0 +1,43 @@
+{
+  "model": "Ridge ward fixed effects + year + lag-1",
+  "spatial_resolution": "ward-level only",
+  "validation": "expanding walk-forward, test years 2020-2025",
+  "metrics": {
+    "mae": 0.024533287463516112,
+    "rmse": 0.030893903694561076,
+    "r2": 0.9689804404259457
+  },
+  "folds": [
+    {
+      "year": 2020,
+      "ridge_mae": 0.03125610252263354,
+      "persistence_mae": 0.02592047688828451
+    },
+    {
+      "year": 2021,
+      "ridge_mae": 0.033106151909923755,
+      "persistence_mae": 0.02398307744504552
+    },
+    {
+      "year": 2022,
+      "ridge_mae": 0.018573123045993525,
+      "persistence_mae": 0.014800822621174312
+    },
+    {
+      "year": 2023,
+      "ridge_mae": 0.015706195884698706,
+      "persistence_mae": 0.012407013228616986
+    },
+    {
+      "year": 2024,
+      "ridge_mae": 0.021122930859454235,
+      "persistence_mae": 0.02022105888648173
+    },
+    {
+      "year": 2025,
+      "ridge_mae": 0.027435220558392894,
+      "persistence_mae": 0.02458364136987462
+    }
+  ],
+  "limitation": "Only 11 annual observations per ward; forecast is experimental and not a 30 m raster."
+}
