@@ -6,6 +6,7 @@ frontend/.env
 # Python
 __pycache__/
 *.py[cod]
+venv/
 backend/venv/
 .pytest_cache/
 .mypy_cache/
@@ -13,19 +14,14 @@ backend/venv/
 
 # Node/Vite
 frontend/node_modules/
-frontend/dist/
 *.log
 *.out
 *.err
 *.pid
 
-# Local raster/data artifacts (keep source data outside GitHub)
-*.tif
-*.tiff
+# Local artifacts
 *.zip
 _ndvi_incoming/
-data/cache/
-data/processed/
 database/backups/
 
 # OS/editor files
